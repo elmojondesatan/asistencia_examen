@@ -1,0 +1,22 @@
+/* Estilos del header */
+.main-header {
+    background-color: #333;
+    color: white;
+    padding: 20px;
+    text-align: center;
+}
+
+/* Contenedor del header */
+.header-container {
+    display: flex;
+    justify-content: space-between; /* Distribuye el título e imagen */
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Estilos del logo */
+.header-logo {
+    width: 100px; /* Ajusta el tamaño de la imagen */
+    height: auto;
+}

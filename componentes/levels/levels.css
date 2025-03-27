@@ -1,0 +1,68 @@
+/* Estilos generales */
+.leves-container {
+    text-align: center;
+    margin: 20px auto;
+    max-width: 600px;
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Contenedores */
+#niveles-container, #grados-container, #secciones-container {
+    margin-top: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+}
+
+/* Estilos para los botones */
+button {
+    display: inline-block;
+    width: 200px;
+    padding: 12px;
+    font-size: 16px;
+    font-weight: bold;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+}
+
+/* Estilos para los botones de niveles */
+.nivel-btn {
+    background: linear-gradient(135deg, #3498db, #2980b9);
+}
+.nivel-btn:hover {
+    transform: translateY(-3px);
+    background: linear-gradient(135deg, #2980b9, #1f6690);
+}
+
+/* Estilos para los botones de grados */
+.grado-btn {
+    background: linear-gradient(135deg, #2ecc71, #27ae60);
+}
+.grado-btn:hover {
+    transform: translateY(-3px);
+    background: linear-gradient(135deg, #27ae60, #1e8449);
+}
+
+/* Estilos para los botones de secciones */
+.seccion-btn {
+    background: linear-gradient(135deg, #f39c12, #e67e22);
+}
+.seccion-btn:hover {
+    transform: translateY(-3px);
+    background: linear-gradient(135deg, #e67e22, #d35400);
+}
+
+/* Responsive */
+@media (max-width: 500px) {
+    button {
+        width: 100%;
+    }
+}
