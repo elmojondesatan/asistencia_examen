@@ -1,60 +1,6 @@
 import { cargarDOM } from "../../index.js";
 
 export function cargarLogin() {
-<<<<<<< HEAD
-  let root = document.querySelector("#root");
-  root.replaceChildren();
-
-  let loginContainer = document.createElement("div");
-  loginContainer.classList.add("login-container");
-
-  let formBox = document.createElement("div");
-  formBox.classList.add("form-box");
-  formBox.id = "loginBox";
-
-  let title = document.createElement("h2");
-  title.textContent = "Iniciar Sesión";
-
-  let emailInput = document.createElement("input");
-  emailInput.type = "email";
-  emailInput.id = "loginEmail";
-  emailInput.placeholder = "Correo electrónico";
-  emailInput.required = true;
-
-  let passwordInput = document.createElement("input");
-  passwordInput.type = "password";
-  passwordInput.id = "loginPassword";
-  passwordInput.placeholder = "Contraseña";
-  passwordInput.required = true;
-
-  let loginBtn = document.createElement("button");
-  loginBtn.id = "loginBtn";
-  loginBtn.textContent = "Ingresar";
-
-  let registerBtn = document.createElement("button");
-  registerBtn.id = "registerBtn";
-  registerBtn.textContent = "Registrarse";
-
-  let errorMsg = document.createElement("p");
-  errorMsg.id = "loginError";
-  errorMsg.textContent = "Correo o contraseña incorrectos";
-  errorMsg.style.color = "red";
-  errorMsg.style.display = "none";
-
-  formBox.append(title, emailInput, passwordInput, loginBtn, registerBtn, errorMsg);
-  loginContainer.appendChild(formBox);
-  root.appendChild(loginContainer);
-
-  loginBtn.addEventListener("click", (event) => {
-    event.preventDefault();
-    login();
-  });
-
-  registerBtn.addEventListener("click", (event) => {
-    event.preventDefault();
-    cargarRegistro();
-  });
-=======
     let root = document.querySelector("#root");
     root.replaceChildren();
 
@@ -210,40 +156,12 @@ function registrar() {
         console.error('Error:', error);
         alert('Hubo un problema con el registro');
     });
->>>>>>> 13ef2752675ea684f7b68dfa765f6a18276638b9
 }
 
 function login() {
-  let email = document.getElementById("loginEmail").value;
-  let password = document.getElementById("loginPassword").value;
+    let email = document.getElementById("loginEmail").value;
+    let password = document.getElementById("loginPassword").value;
 
-<<<<<<< HEAD
-  const loginData = { correo: email, clave: password };
-
-  fetch('http://localhost:3000/login', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(loginData)
-  })
-  .then(response => {
-    if (!response.ok) throw new Error("Error en el login");
-    return response.json();
-  })
-  .then(data => {
-    if (data.message === 'Login exitoso') {
-      let root = document.querySelector("#root");
-      root.replaceChildren();
-      cargarDOM();
-    } else {
-      document.getElementById("loginError").style.display = "block";
-    }
-  })
-  .catch(error => {
-    console.error('Error:', error);
-    document.getElementById("loginError").style.display = "block";
-  });
-}
-=======
     const loginData = {
         correo: email,
         clave: password
@@ -339,4 +257,3 @@ function enviarRecuperacion() {
         msg.textContent = "Error al enviar la recuperación.";
     });
 }
->>>>>>> 13ef2752675ea684f7b68dfa765f6a18276638b9
