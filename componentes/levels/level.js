@@ -2,7 +2,7 @@ import { cargarAsistencia } from "../estudiante/estudiante.js";
 
 export function cargarLeves() {
     const root = document.getElementById("root");
-    
+
     let prevContainer = document.querySelector(".leves-container");
     if (prevContainer) {
         prevContainer.remove();
@@ -30,11 +30,21 @@ export function cargarLeves() {
         "Bachillerato": ["Computación", "Diseño Gráfico", "Biología", "Magisterio"]
     };
 
+    function marcarSeleccion(boton, contenedor) {
+        contenedor.querySelectorAll("button").forEach(b => b.classList.remove("selected"));
+        boton.classList.add("selected");
+    }
+
     Object.keys(niveles).forEach(nivel => {
         const boton = document.createElement("button");
         boton.textContent = nivel;
         boton.classList.add("nivel-btn");
-        boton.addEventListener("click", () => mostrarGrados(nivel));
+        boton.setAttribute("role", "button");
+        boton.setAttribute("aria-label", `Seleccionar nivel ${nivel}`);
+        boton.addEventListener("click", (e) => {
+            mostrarGrados(nivel);
+            marcarSeleccion(e.target, contenedor);
+        });
         contenedor.appendChild(boton);
     });
 
@@ -45,7 +55,12 @@ export function cargarLeves() {
             const boton = document.createElement("button");
             boton.textContent = grado;
             boton.classList.add("grado-btn");
-            boton.addEventListener("click", () => mostrarSecciones(grado, nivel));
+            boton.setAttribute("role", "button");
+            boton.setAttribute("aria-label", `Seleccionar grado ${grado}`);
+            boton.addEventListener("click", (e) => {
+                mostrarSecciones(grado, nivel);
+                marcarSeleccion(e.target, gradosContainer);
+            });
             gradosContainer.appendChild(boton);
         });
     }
@@ -58,14 +73,29 @@ export function cargarLeves() {
             const boton = document.createElement("button");
             boton.textContent = seccion;
             boton.classList.add("seccion-btn");
-            boton.addEventListener("click", () => seleccionarSeccion(grado, seccion));
+            boton.setAttribute("role", "button");
+            boton.setAttribute("aria-label", `Seleccionar sección ${seccion}`);
+            boton.addEventListener("click", (e) => {
+                seleccionarSeccion(grado, seccion);
+                marcarSeleccion(e.target, seccionesContainer);
+            });
             seccionesContainer.appendChild(boton);
         });
     }
 
     function seleccionarSeccion(grado, seccion) {
-        alert(`Seleccionaste: ${grado} - ${seccion}`);
+        mostrarMensajeSeleccion(`${grado} - ${seccion}`);
         mostrarFormularioAlumnos();
+    }
+
+    function mostrarMensajeSeleccion(texto) {
+        let mensajeExistente = document.querySelector(".mensaje-seleccion");
+        if (mensajeExistente) mensajeExistente.remove();
+
+        const mensaje = document.createElement("p");
+        mensaje.textContent = `Seleccionaste: ${texto}`;
+        mensaje.classList.add("mensaje-seleccion");
+        seccionesContainer.appendChild(mensaje);
     }
 
     function mostrarFormularioAlumnos() {
@@ -74,8 +104,7 @@ export function cargarLeves() {
             console.error("No se encontró el elemento #root");
             return;
         }
-    
-        cargarAsistencia(); // Esta función ya agrega el formulario en el DOM, no es necesario hacer appendChild()
-    }
 
+        cargarAsistencia();
+    }
 }

@@ -1,117 +1,31 @@
-/* Fondo general */
+/* Fuente y fondo general */
 body {
     background: linear-gradient(135deg, #eef2f3, #d9e4ec);
     font-family: 'Poppins', sans-serif;
     color: #333;
+    margin: 0;
+    padding: 0;
 }
 
-/* Contenedor principal de los alumnos */
-.alumnos-container {
-    text-align: center;
-    margin: 20px auto;
-    max-width: 700px;
-    padding: 25px;
-    background: white;
-    border-radius: 15px;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-    transition: transform 0.3s ease-in-out;
-}
-
-.alumnos-container:hover {
-    transform: scale(1.02);
-}
-
-/* Estilos de cada alumno */
-.alumno-item {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    background: linear-gradient(135deg, #ffffff, #f7f7f7);
-    padding: 15px;
-    margin: 12px 0;
-    border-radius: 12px;
-    text-align: center;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    transition: transform 0.2s ease-in-out, box-shadow 0.3s;
-}
-
-.alumno-item:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-}
-
-/* Información del alumno */
-.alumno-item span {
-    font-weight: bold;
-    font-size: 18px;
-    color: #333;
-    margin-bottom: 8px;
-}
-
-/* Botones de asistencia */
-.alumno-item button {
-    padding: 12px 18px;
-    margin: 6px;
-    border: none;
-    border-radius: 10px;
-    cursor: pointer;
-    font-size: 14px;
-    font-weight: bold;
-    transition: all 0.3s ease-in-out;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-}
-
-/* Botón presente */
-.btn-presente {
-    background: linear-gradient(135deg, #2ecc71, #27ae60);
-    color: white;
-}
-.btn-presente:hover {
-    background: linear-gradient(135deg, #27ae60, #1e8449);
-    transform: scale(1.1);
-}
-
-/* Botón ausente */
-.btn-ausente {
-    background: linear-gradient(135deg, #e74c3c, #c0392b);
-    color: white;
-}
-.btn-ausente:hover {
-    background: linear-gradient(135deg, #c0392b, #a93226);
-    transform: scale(1.1);
-}
-
-/* Botón tardanza */
-.btn-tardanza {
-    background: linear-gradient(135deg, #f39c12, #e67e22);
-    color: white;
-}
-.btn-tardanza:hover {
-    background: linear-gradient(135deg, #e67e22, #d35400);
-    transform: scale(1.1);
-}
-
-/* Formulario de alumnos */
+/* Contenedor de formulario */
 .formulario-alumno-container {
     background: linear-gradient(135deg, #ffffff, #f8f9fa);
     padding: 25px;
     border-radius: 15px;
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
     text-align: center;
-    margin-bottom: 20px;
+    margin: 20px auto;
+    max-width: 600px;
     animation: fadeIn 0.7s ease-in-out;
 }
 
-/* Título del formulario */
-.formulario-alumno-container h2 {
+.formulario-alumno-container h3 {
     font-size: 22px;
     color: #444;
     margin-bottom: 15px;
     font-weight: bold;
 }
 
-/* Inputs */
 .formulario-alumno-container input {
     width: 100%;
     padding: 12px;
@@ -119,7 +33,7 @@ body {
     border: 2px solid #ddd;
     border-radius: 12px;
     font-size: 16px;
-    transition: border 0.3s ease-in-out, box-shadow 0.3s;
+    transition: border 0.3s, box-shadow 0.3s;
 }
 
 .formulario-alumno-container input:focus {
@@ -128,7 +42,6 @@ body {
     box-shadow: 0 4px 10px rgba(40, 167, 69, 0.3);
 }
 
-/* Botón de agregar alumno */
 .formulario-alumno-container button {
     width: 100%;
     padding: 14px;
@@ -136,9 +49,9 @@ body {
     color: white;
     border: none;
     border-radius: 12px;
-    cursor: pointer;
     font-size: 16px;
     font-weight: bold;
+    cursor: pointer;
     transition: all 0.3s ease-in-out;
 }
 
@@ -148,7 +61,73 @@ body {
     box-shadow: 0 5px 12px rgba(0, 91, 187, 0.3);
 }
 
-/* Animación de aparición */
+/* Lista de alumnos */
+.alumno-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: linear-gradient(135deg, #ffffff, #f7f7f7);
+    padding: 15px;
+    margin: 12px auto;
+    max-width: 600px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s, box-shadow 0.3s;
+}
+
+.alumno-item:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.alumno-item span {
+    font-weight: bold;
+    font-size: 18px;
+    margin-bottom: 8px;
+    text-align: center;
+}
+
+/* Botones comunes */
+.alumno-item button {
+    width: 100%;
+    max-width: 300px;
+    padding: 12px;
+    margin: 6px 0;
+    border: none;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform 0.3s, box-shadow 0.3s;
+    color: white;
+}
+
+/* Estados específicos */
+.btn-ausente {
+    background: linear-gradient(135deg, #e74c3c, #c0392b);
+}
+.btn-ausente:hover {
+    background: linear-gradient(135deg, #c0392b, #a93226);
+    transform: scale(1.05);
+}
+
+.btn-presente {
+    background: linear-gradient(135deg, #2ecc71, #27ae60);
+}
+.btn-presente:hover {
+    background: linear-gradient(135deg, #27ae60, #1e8449);
+    transform: scale(1.05);
+}
+
+.btn-justificado {
+    background: linear-gradient(135deg, #f39c12, #e67e22);
+}
+.btn-justificado:hover {
+    background: linear-gradient(135deg, #e67e22, #d35400);
+    transform: scale(1.05);
+}
+
+/* Animaciones */
 @keyframes fadeIn {
     from {
         opacity: 0;
@@ -160,15 +139,22 @@ body {
     }
 }
 
-/* Responsive */
+/* Responsive design */
 @media (max-width: 600px) {
-    .alumnos-container {
-        max-width: 90%;
-    }
+    .formulario-alumno-container,
     .alumno-item {
-        padding: 12px;
+        width: 90%;
+        padding: 20px;
     }
-    button {
+
+    .formulario-alumno-container input,
+    .formulario-alumno-container button,
+    .alumno-item button {
+        font-size: 16px;
         width: 100%;
+    }
+
+    .alumno-item span {
+        font-size: 16px;
     }
 }

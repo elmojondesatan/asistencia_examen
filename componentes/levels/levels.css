@@ -124,17 +124,25 @@ button.selected {
     }
 }
 
+/* Estilo para mensaje de selección */
+.mensaje-seleccion {
+    margin-top: 20px;
+    font-weight: bold;
+    color: #333;
+    font-size: 18px;
+}
+
 /* Responsive */
 @media (max-width: 600px) {
     .leves-container {
         padding: 20px 15px;
     }
-    
+
     button {
         width: 100%;
         padding: 12px;
     }
-    
+
     #niveles-container, #grados-container, #secciones-container {
         gap: 10px;
     }
