@@ -1,102 +1,106 @@
 import { cargarAsistencia } from "../estudiante/estudiante.js";
 
-export function cargarLeves() {
-    const root = document.getElementById("root");
-
-    let prevContainer = document.querySelector(".leves-container");
-    if (prevContainer) {
-        prevContainer.remove();
-    }
-
-    const levesContainer = document.createElement("div");
-    levesContainer.classList.add("leves-container");
-
-    const contenedor = document.createElement("div");
-    contenedor.id = "niveles-container";
-    const gradosContainer = document.createElement("div");
-    gradosContainer.id = "grados-container";
-    const seccionesContainer = document.createElement("div");
-    seccionesContainer.id = "secciones-container";
-    
-    levesContainer.appendChild(contenedor);
-    levesContainer.appendChild(gradosContainer);
-    levesContainer.appendChild(seccionesContainer);
-    root.appendChild(levesContainer);
+export function cargarNiveles() {
+    const container = document.createElement("div");
+    container.className = "niveles-container";
 
     const niveles = {
         "Preprimaria": ["Párvulos 1", "Párvulos 2", "Párvulos 3"],
-        "Primaria": ["Primaria 1", "Primaria 2", "Primaria 3", "Primaria 4", "Primaria 5", "Primaria 6"],
-        "Básicos": ["Básico 1", "Básico 2", "Básico 3"],
-        "Bachillerato": ["Computación", "Diseño Gráfico", "Biología", "Magisterio"]
+        "Primaria": ["Primero", "Segundo", "Tercero", "Cuarto", "Quinto", "Sexto"],
+        "Básicos": ["Primero Básico", "Segundo Básico", "Tercero Básico"],
+        "Bachillerato": ["Cuarto Bachillerato", "Quinto Bachillerato"]
     };
 
-    function marcarSeleccion(boton, contenedor) {
-        contenedor.querySelectorAll("button").forEach(b => {
-            b.classList.remove("selected");
-            b.disabled = false;
-        });
-        boton.classList.add("selected");
-    }
+    // Crear select de niveles
+    const nivelSelect = document.createElement("select");
+    nivelSelect.id = "nivel-select";
+    nivelSelect.innerHTML = "<option value=''>Seleccione un nivel</option>";
 
     Object.keys(niveles).forEach(nivel => {
-        const boton = document.createElement("button");
-        boton.textContent = nivel;
-        boton.classList.add("nivel-btn");
-        boton.addEventListener("click", (e) => {
-            mostrarGrados(nivel);
-            marcarSeleccion(e.target, contenedor);
-        });
-        contenedor.appendChild(boton);
+        const option = document.createElement("option");
+        option.value = nivel;
+        option.textContent = nivel;
+        nivelSelect.appendChild(option);
     });
 
-    function mostrarGrados(nivel) {
-        gradosContainer.innerHTML = "";
-        seccionesContainer.innerHTML = "";
-        
-        niveles[nivel].forEach(grado => {
-            const boton = document.createElement("button");
-            boton.textContent = grado;
-            boton.classList.add("grado-btn");
-            boton.addEventListener("click", (e) => {
-                mostrarSecciones(grado, nivel);
-                marcarSeleccion(e.target, gradosContainer);
+    // Crear select de grados
+    const gradoSelect = document.createElement("select");
+    gradoSelect.id = "grado-select";
+    gradoSelect.disabled = true;
+    gradoSelect.innerHTML = "<option value=''>Seleccione un grado</option>";
+
+    // Crear select de secciones
+    const seccionSelect = document.createElement("select");
+    seccionSelect.id = "seccion-select";
+    seccionSelect.disabled = true;
+    seccionSelect.innerHTML = "<option value=''>Seleccione una sección</option>";
+
+    // Evento para cargar grados cuando se selecciona un nivel
+    nivelSelect.addEventListener("change", (e) => {
+        gradoSelect.innerHTML = "<option value=''>Seleccione un grado</option>";
+        seccionSelect.innerHTML = "<option value=''>Seleccione una sección</option>";
+        seccionSelect.disabled = true;
+
+        if (e.target.value) {
+            niveles[e.target.value].forEach(grado => {
+                const option = document.createElement("option");
+                option.value = grado;
+                option.textContent = grado;
+                gradoSelect.appendChild(option);
             });
-            gradosContainer.appendChild(boton);
-        });
-    }
+            gradoSelect.disabled = false;
+        } else {
+            gradoSelect.disabled = true;
+        }
+    });
 
-    function mostrarSecciones(grado, nivel) {
-        seccionesContainer.innerHTML = "";
-        let secciones = nivel === "Bachillerato" ? ["4to Bachillerato", "5to Bachillerato"] : ["Sección A", "Sección B"];
-        
-        secciones.forEach(seccion => {
-            const boton = document.createElement("button");
-            boton.textContent = seccion;
-            boton.classList.add("seccion-btn");
-            boton.addEventListener("click", (e) => {
-                seleccionarSeccion(grado, seccion);
-                marcarSeleccion(e.target, seccionesContainer);
+    // Evento para cargar secciones cuando se selecciona un grado
+    gradoSelect.addEventListener("change", (e) => {
+        seccionSelect.innerHTML = "<option value=''>Seleccione una sección</option>";
+
+        if (e.target.value) {
+            const secciones = ["A", "B", "C"];
+            secciones.forEach(seccion => {
+                const option = document.createElement("option");
+                option.value = seccion;
+                option.textContent = `Sección ${seccion}`;
+                seccionSelect.appendChild(option);
             });
-            seccionesContainer.appendChild(boton);
-        });
-    }
+            seccionSelect.disabled = false;
+        } else {
+            seccionSelect.disabled = true;
+        }
+    });
 
-    function seleccionarSeccion(grado, seccion) {
-        mostrarMensajeSeleccion(`${grado} - ${seccion}`);
-        mostrarFormularioAlumnos();
-    }
+    // Botón para confirmar selección
+    const confirmBtn = document.createElement("button");
+    confirmBtn.id = "confirmar-seleccion";
+    confirmBtn.className = "btn-primary";
+    confirmBtn.textContent = "Confirmar Selección";
+    confirmBtn.disabled = true;
 
-    function mostrarMensajeSeleccion(texto) {
-        let mensajeExistente = document.querySelector(".mensaje-seleccion");
-        if (mensajeExistente) mensajeExistente.remove();
+    // Habilitar botón cuando se selecciona una sección
+    seccionSelect.addEventListener("change", (e) => {
+        confirmBtn.disabled = !e.target.value;
+    });
 
-        const mensaje = document.createElement("p");
-        mensaje.textContent = `Seleccionaste: ${texto}`;
-        mensaje.classList.add("mensaje-seleccion");
-        seccionesContainer.appendChild(mensaje);
-    }
+    // Evento para manejar la selección final
+    confirmBtn.addEventListener("click", () => {
+        const nivel = nivelSelect.value;
+        const grado = gradoSelect.value;
+        const seccion = seccionSelect.value;
 
-    function mostrarFormularioAlumnos() {
-        cargarAsistencia();
-    }
+        if (nivel && grado && seccion) {
+            // Aquí puedes cargar la asistencia para la sección seleccionada
+            console.log(`Seleccionado: ${nivel} - ${grado} - ${seccion}`);
+            // cargarAsistencia(nivel, grado, seccion);
+        }
+    });
+
+    container.appendChild(nivelSelect);
+    container.appendChild(gradoSelect);
+    container.appendChild(seccionSelect);
+    container.appendChild(confirmBtn);
+
+    return container;
 }

@@ -1,93 +1,95 @@
-export function agregarFormularioAlumno() {
+export function cargarAsistencia() {
     const container = document.createElement("div");
-    container.classList.add("formulario-alumno-container");
+    container.className = "asistencia-container";
 
-    const title = document.createElement("h3");
-    title.textContent = "Agregar Alumno";
-    container.appendChild(title);
+    const title = document.createElement("h2");
+    title.textContent = "Registro de Asistencia";
 
-    const campos = [
-        { type: "text", placeholder: "Nombre del alumno", id: "nombreAlumno" },
-        { type: "text", placeholder: "Clave del alumno", id: "claveAlumno" },
-        { type: "date", placeholder: "", id: "fechaAlumno" },
-        { type: "email", placeholder: "Correo del alumno", id: "correoAlumno" }
-    ];
+    const table = document.createElement("table");
+    table.className = "asistencia-table";
 
-    campos.forEach(({ type, placeholder, id }) => {
-        const input = document.createElement("input");
-        input.type = type;
-        input.placeholder = placeholder;
-        input.id = id;
-        container.appendChild(input);
+    // Crear encabezados de tabla
+    const thead = document.createElement("thead");
+    const headerRow = document.createElement("tr");
+    
+    const headers = ["No.", "Nombre del Estudiante", "Asistencia", "Retardo", "Falta", "Justificación"];
+    headers.forEach(headerText => {
+        const th = document.createElement("th");
+        th.textContent = headerText;
+        headerRow.appendChild(th);
     });
 
-    const btnAgregar = document.createElement("button");
-    btnAgregar.textContent = "Agregar Alumno";
-    btnAgregar.addEventListener("click", agregarAlumno);
-    container.appendChild(btnAgregar);
+    thead.appendChild(headerRow);
+    table.appendChild(thead);
+
+    // Crear cuerpo de tabla (datos de ejemplo)
+    const tbody = document.createElement("tbody");
+    const estudiantes = [
+        { id: 1, nombre: "Juan Pérez" },
+        { id: 2, nombre: "María García" },
+        { id: 3, nombre: "Carlos López" }
+    ];
+
+    estudiantes.forEach(estudiante => {
+        const row = document.createElement("tr");
+        
+        // Número y nombre
+        const cellId = document.createElement("td");
+        cellId.textContent = estudiante.id;
+        
+        const cellNombre = document.createElement("td");
+        cellNombre.textContent = estudiante.nombre;
+
+        // Opciones de asistencia
+        const cellAsistencia = document.createElement("td");
+        const radioAsistencia = document.createElement("input");
+        radioAsistencia.type = "radio";
+        radioAsistencia.name = `asistencia-${estudiante.id}`;
+        radioAsistencia.value = "asistencia";
+        cellAsistencia.appendChild(radioAsistencia);
+
+        const cellRetardo = document.createElement("td");
+        const radioRetardo = document.createElement("input");
+        radioRetardo.type = "radio";
+        radioRetardo.name = `asistencia-${estudiante.id}`;
+        radioRetardo.value = "retardo";
+        cellRetardo.appendChild(radioRetardo);
+
+        const cellFalta = document.createElement("td");
+        const radioFalta = document.createElement("input");
+        radioFalta.type = "radio";
+        radioFalta.name = `asistencia-${estudiante.id}`;
+        radioFalta.value = "falta";
+        cellFalta.appendChild(radioFalta);
+
+        // Justificación
+        const cellJustificacion = document.createElement("td");
+        const inputJustificacion = document.createElement("input");
+        inputJustificacion.type = "text";
+        inputJustificacion.placeholder = "Motivo (si aplica)";
+        cellJustificacion.appendChild(inputJustificacion);
+
+        // Agregar celdas a la fila
+        row.append(cellId, cellNombre, cellAsistencia, cellRetardo, cellFalta, cellJustificacion);
+        tbody.appendChild(row);
+    });
+
+    table.appendChild(tbody);
+
+    // Botón para guardar
+    const saveBtn = document.createElement("button");
+    saveBtn.className = "btn-primary";
+    saveBtn.textContent = "Guardar Asistencia";
+    saveBtn.addEventListener("click", guardarAsistencia);
+
+    container.appendChild(title);
+    container.appendChild(table);
+    container.appendChild(saveBtn);
 
     return container;
 }
 
-// Agrega un alumno a la lista de asistencia
-export function agregarAlumno() {
-    const nombre = document.getElementById("nombreAlumno").value.trim();
-    const clave = document.getElementById("claveAlumno").value.trim();
-    const fecha = document.getElementById("fechaAlumno").value;
-    const correo = document.getElementById("correoAlumno").value.trim();
-
-    if (!nombre || !clave || !fecha || !correo) {
-        alert("Por favor, ingresa todos los datos.");
-        return;
-    }
-
-    let listaAsistencia = document.getElementById("listaAsistencia");
-    if (!listaAsistencia) {
-        listaAsistencia = document.createElement("div");
-        listaAsistencia.id = "listaAsistencia";
-        document.querySelector("#root").appendChild(listaAsistencia);
-    }
-
-    const alumnoDiv = document.createElement("div");
-    alumnoDiv.classList.add("alumno-item");
-
-    const info = document.createElement("span");
-    info.textContent = `Nombre: ${nombre} | Clave: ${clave} | Fecha: ${fecha} | Correo: ${correo}`;
-    alumnoDiv.appendChild(info);
-
-    const estados = ["Ausente", "Presente", "Justificado"];
-    estados.forEach(estado => {
-        const btn = document.createElement("button");
-        btn.textContent = estado;
-        btn.className = `btn-${estado.toLowerCase()}`;
-        btn.addEventListener("click", () => alert(`${nombre} marcado como ${estado}`));
-        alumnoDiv.appendChild(btn);
-    });
-
-    listaAsistencia.appendChild(alumnoDiv);
-}
-
-// Inicializa la interfaz de asistencia
-export function cargarAsistencia() {
-    const root = document.querySelector("#root");
-    root.innerHTML = ""; // Limpiar todo el contenido
-
-    // Verificar autenticación (opcional)
-    if (!localStorage.getItem("authToken")) {
-        console.error("Usuario no autenticado");
-        // Aquí podrías redirigir al login si lo prefieres
-        // cargarLogin();
-        // return;
-    }
-
-    // Crear y agregar header
-    const header = createHeader(true); // true indica que el usuario está logueado
-    root.appendChild(header);
-
-    // Resto del código existente...
-    let formularioContainer = document.createElement("div");
-    formularioContainer.id = "formulario-container";
-    root.appendChild(formularioContainer);
-
-    formularioContainer.appendChild(agregarFormularioAlumno());
+function guardarAsistencia() {
+    // Implementación para guardar la asistencia
+    alert("Asistencia guardada correctamente");
 }

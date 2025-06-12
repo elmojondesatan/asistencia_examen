@@ -1,235 +1,241 @@
-import { cargarDOM } from "../../index.js";
+import { cargarDOM } from "../index.js";
 
+// ---- LOGIN ----
 export function cargarLogin() {
-    let root = document.querySelector("#root");
-    root.replaceChildren();
+    const root = document.getElementById("root");
+    root.innerHTML = "";
 
-    let loginContainer = document.createElement("div");
-    loginContainer.classList.add("login-container");
+    const container = document.createElement("div");
+    container.className = "login-container";
 
-    let formBox = document.createElement("div");
-    formBox.classList.add("form-box");
-    formBox.id = "loginBox";
+    const box = document.createElement("div");
+    box.className = "form-box";
+    box.id = "loginBox";
 
-    let title = document.createElement("h2");
+    const title = document.createElement("h2");
     title.textContent = "Iniciar Sesión";
 
-    let emailInput = document.createElement("input");
-    emailInput.type = "email";
-    emailInput.id = "loginEmail";
-    emailInput.placeholder = "Correo electrónico";
-    emailInput.required = true;
+    const email = document.createElement("input");
+    email.type = "email";
+    email.id = "loginEmail";
+    email.placeholder = "Correo electrónico";
+    email.required = true;
 
-    let passwordInput = document.createElement("input");
-    passwordInput.type = "password";
-    passwordInput.id = "loginPassword";
-    passwordInput.placeholder = "Contraseña";
-    passwordInput.required = true;
+    const pass = document.createElement("input");
+    pass.type = "password";
+    pass.id = "loginPassword";
+    pass.placeholder = "Contraseña";
+    pass.required = true;
 
-    let loginBtn = document.createElement("button");
-    loginBtn.id = "loginBtn";
-    loginBtn.textContent = "Ingresar";
+    const btnLogin = document.createElement("button");
+    btnLogin.id = "loginBtn";
+    btnLogin.className = "btn-primary";
+    btnLogin.textContent = "Ingresar";
 
-    let registerBtn = document.createElement("button");
-    registerBtn.id = "registerBtn";
-    registerBtn.textContent = "Registrarse";
+    const btnReg = document.createElement("button");
+    btnReg.id = "registerBtn";
+    btnReg.className = "btn-secondary";
+    btnReg.textContent = "Registrarse";
 
-    let forgotPasswordBtn = document.createElement("button");
-    forgotPasswordBtn.id = "forgotPasswordBtn";
-    forgotPasswordBtn.textContent = "¿Olvidaste tu contraseña?";
-    forgotPasswordBtn.style.background = "none";
-    forgotPasswordBtn.style.color = "blue";
-    forgotPasswordBtn.style.border = "none";
-    forgotPasswordBtn.style.cursor = "pointer";
+    const btnForgot = document.createElement("button");
+    btnForgot.id = "forgotPasswordBtn";
+    btnForgot.className = "btn-link";
+    btnForgot.textContent = "¿Olvidaste tu contraseña?";
 
-    let errorMsg = document.createElement("p");
-    errorMsg.id = "loginError";
-    errorMsg.style.color = "red";
-    errorMsg.style.display = "none";
+    const error = document.createElement("p");
+    error.id = "loginError";
+    error.className = "error-message";
+    error.textContent = "Correo o contraseña incorrectos";
+    error.style.display = "none";
 
-    formBox.append(title, emailInput, passwordInput, loginBtn, registerBtn, forgotPasswordBtn, errorMsg);
-    loginContainer.appendChild(formBox);
-    root.appendChild(loginContainer);
+    box.append(title, email, pass, btnLogin, btnReg, btnForgot, error);
+    container.appendChild(box);
+    root.appendChild(container);
 
-    loginBtn.addEventListener("click", login);
-    registerBtn.addEventListener("click", cargarRegistro);
-    forgotPasswordBtn.addEventListener("click", cargarRecuperarClave);
+    btnLogin.addEventListener("click", login);
+    btnReg.addEventListener("click", cargarRegistro);
+    btnForgot.addEventListener("click", cargarRecuperarClave);
 }
 
+// ---- REGISTRO ----
 function cargarRegistro() {
-    let root = document.querySelector("#root");
-    root.replaceChildren();
+    const root = document.getElementById("root");
+    root.innerHTML = "";
 
-    let registerContainer = document.createElement("div");
-    registerContainer.classList.add("login-container");
+    const container = document.createElement("div");
+    container.className = "login-container";
 
-    let formBox = document.createElement("div");
-    formBox.classList.add("form-box");
-    formBox.id = "registerBox";
+    const box = document.createElement("div");
+    box.className = "form-box";
+    box.id = "registerBox";
 
-    let title = document.createElement("h2");
+    const title = document.createElement("h2");
     title.textContent = "Crear Cuenta";
 
-    let usernameInput = document.createElement("input");
-    usernameInput.type = "text";
-    usernameInput.id = "registerUsername";
-    usernameInput.placeholder = "Nombre de usuario";
-    usernameInput.required = true;
+    const fields = [
+        { type: "text", id: "registerUsername", placeholder: "Nombre de usuario" },
+        { type: "text", id: "registerName", placeholder: "Nombre completo" },
+        { type: "tel", id: "registerPhone", placeholder: "Número de teléfono" },
+        { type: "email", id: "registerEmail", placeholder: "Correo electrónico" },
+        { type: "password", id: "registerPassword", placeholder: "Contraseña" }
+    ];
 
-    let nameInput = document.createElement("input");
-    nameInput.type = "text";
-    nameInput.id = "registerName";
-    nameInput.placeholder = "Nombre completo";
-    nameInput.required = true;
-
-    let phoneInput = document.createElement("input");
-    phoneInput.type = "tel";
-    phoneInput.id = "registerPhone";
-    phoneInput.placeholder = "Número de teléfono";
-    phoneInput.required = true;
-
-    let emailInput = document.createElement("input");
-    emailInput.type = "email";
-    emailInput.id = "registerEmail";
-    emailInput.placeholder = "Correo electrónico";
-    emailInput.required = true;
-
-    let passwordInput = document.createElement("input");
-    passwordInput.type = "password";
-    passwordInput.id = "registerPassword";
-    passwordInput.placeholder = "Contraseña";
-    passwordInput.required = true;
-
-    let registerSubmit = document.createElement("button");
-    registerSubmit.id = "registerSubmit";
-    registerSubmit.textContent = "Registrarse";
-
-    let backToLogin = document.createElement("button");
-    backToLogin.id = "backToLogin";
-    backToLogin.textContent = "Volver al Login";
-
-    let successMsg = document.createElement("p");
-    successMsg.id = "registerSuccess";
-    successMsg.style.color = "green";
-    successMsg.style.display = "none";
-
-    formBox.append(title, usernameInput, nameInput, phoneInput, emailInput, passwordInput, registerSubmit, backToLogin, successMsg);
-    registerContainer.appendChild(formBox);
-    root.appendChild(registerContainer);
-
-    registerSubmit.addEventListener("click", registrar);
-    backToLogin.addEventListener("click", cargarLogin);
-}
-
-function registrar() {
-    const username = document.getElementById("registerUsername").value.trim();
-    const name = document.getElementById("registerName").value.trim();
-    const phone = document.getElementById("registerPhone").value.trim();
-    const email = document.getElementById("registerEmail").value.trim();
-    const password = document.getElementById("registerPassword").value.trim();
-    const successMsg = document.getElementById("registerSuccess");
-    const registerBtn = document.getElementById("registerSubmit");
-
-    if (!username || !name || !phone || !email || !password) {
-        successMsg.textContent = "Por favor complete todos los campos";
-        successMsg.style.color = "red";
-        successMsg.style.display = "block";
-        return;
-    }
-
-    registerBtn.disabled = true;
-    registerBtn.textContent = "Registrando...";
-
-    const userData = {
-        usuario: username,
-        nombre: name,
-        correo: email,
-        telefono: phone,
-        clave: password
-    };
-
-    fetch('http://localhost:3000/register', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(userData)
-    })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error(`Error HTTP! estado: ${response.status}`);
-        }
-        return response.json();
-    })
-    .then(data => {
-        if (data.message === 'Profesor registrado exitosamente') {
-            successMsg.textContent = "Cuenta creada exitosamente";
-            successMsg.style.color = "green";
-            successMsg.style.display = "block";
-            setTimeout(cargarLogin, 2000);
-        } else {
-            successMsg.textContent = data.message || 'Error al registrar';
-            successMsg.style.color = "red";
-            successMsg.style.display = "block";
-        }
-    })
-    .catch(error => {
-        console.error('Error:', error);
-        successMsg.textContent = "Error de conexión con el servidor";
-        successMsg.style.color = "red";
-        successMsg.style.display = "block";
-    })
-    .finally(() => {
-        registerBtn.disabled = false;
-        registerBtn.textContent = "Registrarse";
+    const elements = fields.map(field => {
+        const input = document.createElement("input");
+        input.type = field.type;
+        input.id = field.id;
+        input.placeholder = field.placeholder;
+        input.required = true;
+        return input;
     });
+
+    const btnSubmit = document.createElement("button");
+    btnSubmit.id = "registerSubmit";
+    btnSubmit.className = "btn-primary";
+    btnSubmit.textContent = "Registrarse";
+
+    const btnBack = document.createElement("button");
+    btnBack.id = "backToLogin";
+    btnBack.className = "btn-secondary";
+    btnBack.textContent = "Volver al Login";
+
+    const success = document.createElement("p");
+    success.id = "registerSuccess";
+    success.className = "success-message";
+    success.textContent = "Cuenta creada exitosamente";
+    success.style.display = "none";
+
+    box.append(title, ...elements, btnSubmit, btnBack, success);
+    container.appendChild(box);
+    root.appendChild(container);
+
+    btnSubmit.addEventListener("click", registrar);
+    btnBack.addEventListener("click", cargarLogin);
 }
 
-function login() {
-    const email = document.getElementById("loginEmail").value.trim();
-    const password = document.getElementById("loginPassword").value.trim();
-    const errorMsg = document.getElementById("loginError");
-    const loginBtn = document.getElementById("loginBtn");
+// ---- RECUPERAR CONTRASEÑA ----
+function cargarRecuperarClave() {
+    const root = document.getElementById("root");
+    root.innerHTML = "";
 
-    if (!email || !password) {
-        errorMsg.textContent = "Por favor complete todos los campos";
-        errorMsg.style.display = "block";
-        return;
-    }
+    const container = document.createElement("div");
+    container.className = "login-container";
 
-    loginBtn.disabled = true;
-    loginBtn.textContent = "Cargando...";
+    const box = document.createElement("div");
+    box.className = "form-box";
+    box.id = "recoverBox";
 
-    const loginData = {
-        correo: email,
-        clave: password
-    };
+    const title = document.createElement("h2");
+    title.textContent = "Recuperar Contraseña";
 
-    fetch('http://localhost:3000/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(loginData)
-    })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error(`Error HTTP! estado: ${response.status}`);
-        }
-        return response.json();
-    })
-    .then(data => {
-        if (data.message === 'Login exitoso') {
+    const correoInp = document.createElement("input");
+    correoInp.type = "email";
+    correoInp.id = "recoverEmail";
+    correoInp.placeholder = "Correo registrado";
+    correoInp.required = true;
+
+    const btnSend = document.createElement("button");
+    btnSend.id = "sendCodeBtn";
+    btnSend.className = "btn-primary";
+    btnSend.textContent = "Enviar código";
+
+    const codeInp = document.createElement("input");
+    codeInp.type = "text";
+    codeInp.id = "recoverCode";
+    codeInp.placeholder = "Código recibido";
+    codeInp.style.display = "none";
+
+    const newPassInp = document.createElement("input");
+    newPassInp.type = "password";
+    newPassInp.id = "newPassword";
+    newPassInp.placeholder = "Nueva contraseña";
+    newPassInp.style.display = "none";
+
+    const btnConfirm = document.createElement("button");
+    btnConfirm.id = "confirmNewPassBtn";
+    btnConfirm.className = "btn-primary";
+    btnConfirm.textContent = "Confirmar nueva contraseña";
+    btnConfirm.style.display = "none";
+
+    const msg = document.createElement("p");
+    msg.id = "recoverMessage";
+    msg.className = "info-message";
+    msg.style.display = "none";
+
+    const btnBack = document.createElement("button");
+    btnBack.className = "btn-secondary";
+    btnBack.textContent = "Volver al Login";
+
+    box.append(title, correoInp, btnSend, codeInp, newPassInp, btnConfirm, msg, btnBack);
+    container.appendChild(box);
+    root.appendChild(container);
+
+    btnBack.addEventListener("click", cargarLogin);
+    btnSend.addEventListener("click", enviarCodigo);
+    btnConfirm.addEventListener("click", confirmarNuevaClave);
+}
+
+// ---- FUNCIONES DE AUTENTICACIÓN ----
+async function login() {
+    const email = document.getElementById("loginEmail").value;
+    const password = document.getElementById("loginPassword").value;
+
+    try {
+        const response = await fetch("http://localhost:3000/login", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ email, password })
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+            localStorage.setItem("token", data.token);
             cargarDOM();
         } else {
-            errorMsg.textContent = data.message || "Credenciales incorrectas";
-            errorMsg.style.display = "block";
+            document.getElementById("loginError").textContent = data.message || "Error en el login";
+            document.getElementById("loginError").style.display = "block";
         }
-    })
-    .catch(error => {
-        console.error('Error:', error);
-        errorMsg.textContent = "Error de conexión con el servidor";
-        errorMsg.style.display = "block";
-    })
-    .finally(() => {
-        loginBtn.disabled = false;
-        loginBtn.textContent = "Ingresar";
-    });
+    } catch (error) {
+        console.error("Error:", error);
+        document.getElementById("loginError").textContent = "Error de conexión";
+        document.getElementById("loginError").style.display = "block";
+    }
 }
 
+async function registrar() {
+    const usuario = document.getElementById("registerUsername").value;
+    const nombre = document.getElementById("registerName").value;
+    const telefono = document.getElementById("registerPhone").value;
+    const correo = document.getElementById("registerEmail").value;
+    const clave = document.getElementById("registerPassword").value;
+
+    try {
+        const response = await fetch("http://localhost:3000/register", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ usuario, nombre, telefono, correo, clave })
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+            document.getElementById("registerSuccess").style.display = "block";
+            setTimeout(cargarLogin, 2000);
+        } else {
+            alert(data.message || "Error al registrar");
+        }
+    } catch (error) {
+        console.error("Error:", error);
+        alert("Error de conexión al servidor");
+    }
+}
+
+async function enviarCodigo() {
+    const email = document.getElementById("recoverEmail").value;
+    // Implementación de envío de código
+}
+
+async function confirmarNuevaClave() {
+    // Implementación de confirmación de nueva clave
+}

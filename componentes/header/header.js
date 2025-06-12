@@ -1,34 +1,41 @@
-export function createHeader(isLoggedIn = false) {
+export function createHeader() {
     const header = document.createElement("header");
-    header.classList.add("main-header");
+    header.className = "app-header";
 
-    const container = document.createElement("div");
-    container.classList.add("header-container");
+    const logo = document.createElement("div");
+    logo.className = "logo";
+    logo.textContent = "Sistema de Asistencia";
 
-    const title = document.createElement("h1");
-    title.textContent = "Asistencia";
+    const nav = document.createElement("nav");
 
-    const img = document.createElement("img");
-    img.src = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRq-IciWxLW5lsM2Oco4VluWyfOBSmgukVu6w&s";
-    img.alt = "Logo";
-    img.classList.add("header-logo");
+    const menuItems = [
+        { text: "Inicio", id: "home-btn" },
+        { text: "Asistencia", id: "asistencia-btn" },
+        { text: "Reportes", id: "reportes-btn" }
+    ];
 
-    // Agregar botón de logout si está logueado
-    if (isLoggedIn) {
-        const logoutBtn = document.createElement("button");
-        logoutBtn.textContent = "Cerrar Sesión";
-        logoutBtn.classList.add("logout-btn");
-        logoutBtn.addEventListener("click", () => {
-            // Aquí deberías limpiar cualquier dato de sesión y redirigir al login
-            localStorage.removeItem("authToken"); // Ejemplo si usas token
-            window.location.reload(); // O redirigir a la página de login
-        });
-        container.appendChild(logoutBtn);
-    }
+    menuItems.forEach(item => {
+        const button = document.createElement("button");
+        button.className = "nav-btn";
+        button.id = item.id;
+        button.textContent = item.text;
+        nav.appendChild(button);
+    });
 
-    container.appendChild(title);
-    container.appendChild(img);
-    header.appendChild(container);
+    const logoutBtn = document.createElement("button");
+    logoutBtn.id = "logout-btn";
+    logoutBtn.className = "btn-secondary";
+    logoutBtn.textContent = "Cerrar Sesión";
+    logoutBtn.addEventListener("click", logout);
+
+    header.appendChild(logo);
+    header.appendChild(nav);
+    header.appendChild(logoutBtn);
 
     return header;
+}
+
+function logout() {
+    localStorage.removeItem("token");
+    window.location.reload();
 }
