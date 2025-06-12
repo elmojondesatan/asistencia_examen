@@ -44,7 +44,6 @@ export function cargarLogin() {
 
     let errorMsg = document.createElement("p");
     errorMsg.id = "loginError";
-    errorMsg.textContent = "Correo o contraseña incorrectos";
     errorMsg.style.color = "red";
     errorMsg.style.display = "none";
 
@@ -111,7 +110,6 @@ function cargarRegistro() {
 
     let successMsg = document.createElement("p");
     successMsg.id = "registerSuccess";
-    successMsg.textContent = "Cuenta creada exitosamente";
     successMsg.style.color = "green";
     successMsg.style.display = "none";
 
@@ -124,11 +122,23 @@ function cargarRegistro() {
 }
 
 function registrar() {
-    let username = document.getElementById("registerUsername").value;
-    let name = document.getElementById("registerName").value;
-    let phone = document.getElementById("registerPhone").value;
-    let email = document.getElementById("registerEmail").value;
-    let password = document.getElementById("registerPassword").value;
+    const username = document.getElementById("registerUsername").value.trim();
+    const name = document.getElementById("registerName").value.trim();
+    const phone = document.getElementById("registerPhone").value.trim();
+    const email = document.getElementById("registerEmail").value.trim();
+    const password = document.getElementById("registerPassword").value.trim();
+    const successMsg = document.getElementById("registerSuccess");
+    const registerBtn = document.getElementById("registerSubmit");
+
+    if (!username || !name || !phone || !email || !password) {
+        successMsg.textContent = "Por favor complete todos los campos";
+        successMsg.style.color = "red";
+        successMsg.style.display = "block";
+        return;
+    }
+
+    registerBtn.disabled = true;
+    registerBtn.textContent = "Registrando...";
 
     const userData = {
         usuario: username,
@@ -143,24 +153,50 @@ function registrar() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(userData)
     })
-    .then(response => response.json())
+    .then(response => {
+        if (!response.ok) {
+            throw new Error(`Error HTTP! estado: ${response.status}`);
+        }
+        return response.json();
+    })
     .then(data => {
         if (data.message === 'Profesor registrado exitosamente') {
-            document.getElementById("registerSuccess").style.display = "block";
+            successMsg.textContent = "Cuenta creada exitosamente";
+            successMsg.style.color = "green";
+            successMsg.style.display = "block";
             setTimeout(cargarLogin, 2000);
         } else {
-            alert('Error al registrar el profesor');
+            successMsg.textContent = data.message || 'Error al registrar';
+            successMsg.style.color = "red";
+            successMsg.style.display = "block";
         }
     })
     .catch(error => {
         console.error('Error:', error);
-        alert('Hubo un problema con el registro');
+        successMsg.textContent = "Error de conexión con el servidor";
+        successMsg.style.color = "red";
+        successMsg.style.display = "block";
+    })
+    .finally(() => {
+        registerBtn.disabled = false;
+        registerBtn.textContent = "Registrarse";
     });
 }
 
 function login() {
-    let email = document.getElementById("loginEmail").value;
-    let password = document.getElementById("loginPassword").value;
+    const email = document.getElementById("loginEmail").value.trim();
+    const password = document.getElementById("loginPassword").value.trim();
+    const errorMsg = document.getElementById("loginError");
+    const loginBtn = document.getElementById("loginBtn");
+
+    if (!email || !password) {
+        errorMsg.textContent = "Por favor complete todos los campos";
+        errorMsg.style.display = "block";
+        return;
+    }
+
+    loginBtn.disabled = true;
+    loginBtn.textContent = "Cargando...";
 
     const loginData = {
         correo: email,
@@ -172,88 +208,28 @@ function login() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(loginData)
     })
-    .then(response => response.json())
+    .then(response => {
+        if (!response.ok) {
+            throw new Error(`Error HTTP! estado: ${response.status}`);
+        }
+        return response.json();
+    })
     .then(data => {
         if (data.message === 'Login exitoso') {
-            let root = document.querySelector("#root");
-            root.replaceChildren();
             cargarDOM();
         } else {
-            document.getElementById("loginError").style.display = "block";
+            errorMsg.textContent = data.message || "Credenciales incorrectas";
+            errorMsg.style.display = "block";
         }
     })
     .catch(error => {
         console.error('Error:', error);
-        document.getElementById("loginError").style.display = "block";
+        errorMsg.textContent = "Error de conexión con el servidor";
+        errorMsg.style.display = "block";
+    })
+    .finally(() => {
+        loginBtn.disabled = false;
+        loginBtn.textContent = "Ingresar";
     });
 }
 
-// === Recuperar Contraseña ===
-
-function cargarRecuperarClave() {
-    let root = document.querySelector("#root");
-    root.replaceChildren();
-
-    let recuperarContainer = document.createElement("div");
-    recuperarContainer.classList.add("login-container");
-
-    let formBox = document.createElement("div");
-    formBox.classList.add("form-box");
-    formBox.id = "recoverBox";
-
-    let title = document.createElement("h2");
-    title.textContent = "Recuperar Contraseña";
-
-    let emailInput = document.createElement("input");
-    emailInput.type = "email";
-    emailInput.id = "recoverEmail";
-    emailInput.placeholder = "Correo registrado";
-    emailInput.required = true;
-
-    let sendBtn = document.createElement("button");
-    sendBtn.textContent = "Enviar nueva contraseña";
-
-    let backBtn = document.createElement("button");
-    backBtn.textContent = "Volver al Login";
-
-    let message = document.createElement("p");
-    message.id = "recoverMessage";
-    message.style.display = "none";
-
-    formBox.append(title, emailInput, sendBtn, backBtn, message);
-    recuperarContainer.appendChild(formBox);
-    root.appendChild(recuperarContainer);
-
-    sendBtn.addEventListener("click", enviarRecuperacion);
-    backBtn.addEventListener("click", cargarLogin);
-}
-
-function enviarRecuperacion() {
-    const correo = document.getElementById("recoverEmail").value;
-
-    fetch("http://localhost:3000/recuperar", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ correo })
-    })
-    .then(res => res.json())
-    .then(data => {
-        let msg = document.getElementById("recoverMessage");
-        if (data.message === "Correo enviado") {
-            msg.style.display = "block";
-            msg.style.color = "green";
-            msg.textContent = "Se envió una nueva contraseña a tu correo.";
-        } else {
-            msg.style.display = "block";
-            msg.style.color = "red";
-            msg.textContent = "No se encontró ese correo.";
-        }
-    })
-    .catch(err => {
-        console.error(err);
-        let msg = document.getElementById("recoverMessage");
-        msg.style.display = "block";
-        msg.style.color = "red";
-        msg.textContent = "Error al enviar la recuperación.";
-    });
-}

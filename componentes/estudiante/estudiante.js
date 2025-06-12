@@ -70,19 +70,24 @@ export function agregarAlumno() {
 // Inicializa la interfaz de asistencia
 export function cargarAsistencia() {
     const root = document.querySelector("#root");
+    root.innerHTML = ""; // Limpiar todo el contenido
 
-    let formularioContainer = document.getElementById("formulario-container");
-    if (!formularioContainer) {
-        formularioContainer = document.createElement("div");
-        formularioContainer.id = "formulario-container";
-        root.appendChild(formularioContainer);
+    // Verificar autenticación (opcional)
+    if (!localStorage.getItem("authToken")) {
+        console.error("Usuario no autenticado");
+        // Aquí podrías redirigir al login si lo prefieres
+        // cargarLogin();
+        // return;
     }
-    formularioContainer.innerHTML = "";
 
-    const listaAsistencia = document.getElementById("listaAsistencia");
-    if (listaAsistencia) {
-        listaAsistencia.innerHTML = "";
-    }
+    // Crear y agregar header
+    const header = createHeader(true); // true indica que el usuario está logueado
+    root.appendChild(header);
+
+    // Resto del código existente...
+    let formularioContainer = document.createElement("div");
+    formularioContainer.id = "formulario-container";
+    root.appendChild(formularioContainer);
 
     formularioContainer.appendChild(agregarFormularioAlumno());
 }

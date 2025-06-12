@@ -31,7 +31,10 @@ export function cargarLeves() {
     };
 
     function marcarSeleccion(boton, contenedor) {
-        contenedor.querySelectorAll("button").forEach(b => b.classList.remove("selected"));
+        contenedor.querySelectorAll("button").forEach(b => {
+            b.classList.remove("selected");
+            b.disabled = false;
+        });
         boton.classList.add("selected");
     }
 
@@ -39,8 +42,6 @@ export function cargarLeves() {
         const boton = document.createElement("button");
         boton.textContent = nivel;
         boton.classList.add("nivel-btn");
-        boton.setAttribute("role", "button");
-        boton.setAttribute("aria-label", `Seleccionar nivel ${nivel}`);
         boton.addEventListener("click", (e) => {
             mostrarGrados(nivel);
             marcarSeleccion(e.target, contenedor);
@@ -51,12 +52,11 @@ export function cargarLeves() {
     function mostrarGrados(nivel) {
         gradosContainer.innerHTML = "";
         seccionesContainer.innerHTML = "";
+        
         niveles[nivel].forEach(grado => {
             const boton = document.createElement("button");
             boton.textContent = grado;
             boton.classList.add("grado-btn");
-            boton.setAttribute("role", "button");
-            boton.setAttribute("aria-label", `Seleccionar grado ${grado}`);
             boton.addEventListener("click", (e) => {
                 mostrarSecciones(grado, nivel);
                 marcarSeleccion(e.target, gradosContainer);
@@ -73,8 +73,6 @@ export function cargarLeves() {
             const boton = document.createElement("button");
             boton.textContent = seccion;
             boton.classList.add("seccion-btn");
-            boton.setAttribute("role", "button");
-            boton.setAttribute("aria-label", `Seleccionar sección ${seccion}`);
             boton.addEventListener("click", (e) => {
                 seleccionarSeccion(grado, seccion);
                 marcarSeleccion(e.target, seccionesContainer);
@@ -99,12 +97,6 @@ export function cargarLeves() {
     }
 
     function mostrarFormularioAlumnos() {
-        let root = document.querySelector("#root");
-        if (!root) {
-            console.error("No se encontró el elemento #root");
-            return;
-        }
-
         cargarAsistencia();
     }
 }

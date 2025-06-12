@@ -1,22 +1,21 @@
-/* Estilos del header */
-.main-header {
-    background-color: #333;
-    color: white;
-    padding: 20px;
-    text-align: center;
+/* Añadir al CSS existente */
+.logout-btn {
+    background: linear-gradient(135deg, #e74c3c, #c0392b) !important;
+    padding: 8px 16px !important;
+    width: auto !important;
+    margin-left: 20px !important;
+    transition: all 0.3s ease;
 }
 
-/* Contenedor del header */
+.logout-btn:hover {
+    background: linear-gradient(135deg, #c0392b, #a93226) !important;
+    transform: scale(1.05) !important;
+}
+
+/* Ajustar el header-container para el nuevo botón */
 .header-container {
     display: flex;
-    justify-content: space-between; /* Distribuye el título e imagen */
+    justify-content: space-between;
     align-items: center;
-    max-width: 1200px;
-    margin: 0 auto;
-}
-
-/* Estilos del logo */
-.header-logo {
-    width: 100px; /* Ajusta el tamaño de la imagen */
-    height: auto;
+    padding: 0 20px;
 }
