@@ -28,6 +28,10 @@ input {
     transition: border-color 0.3s;
 }
 
+#registerBox input {
+    margin-bottom: 12px;
+}
+
 input:focus {
     border-color: #667eea;
     outline: none;
@@ -58,9 +62,36 @@ button:disabled {
     transform: none !important;
 }
 
-#loginError, #registerSuccess {
+p {
     margin-top: 10px;
     font-size: 14px;
     font-weight: bold;
+}
+
+#loginError {
+    color: red;
     display: none;
+}
+
+#registerSuccess {
+    color: green;
+    display: none;
+}
+
+a {
+    color: #667eea;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s;
+}
+
+a:hover {
+    color: #564fb8;
+}
+
+@media (max-width: 400px) {
+    .form-box {
+        padding: 30px;
+        max-width: 280px;
+    }
 }

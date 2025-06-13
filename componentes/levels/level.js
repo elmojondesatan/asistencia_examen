@@ -6,7 +6,7 @@ export function cargarNiveles(callbackSeleccion) {
         "Preprimaria": ["Párvulos 1", "Párvulos 2", "Párvulos 3"],
         "Primaria": ["Primero", "Segundo", "Tercero", "Cuarto", "Quinto", "Sexto"],
         "Básicos": ["Primero Básico", "Segundo Básico", "Tercero Básico"],
-        "Bachillerato Computación": ["IV Computación ", "V Computación"]
+        "Bachillerato Computación": ["IV Computación", "V Computación"]
     };
 
     const nivelSelect = document.createElement("select");
@@ -52,8 +52,7 @@ export function cargarNiveles(callbackSeleccion) {
         seccionSelect.innerHTML = "<option value=''>Seleccione una sección</option>";
 
         if (e.target.value) {
-            const secciones = ["A", "B", "C"];
-            secciones.forEach(seccion => {
+            ["A", "B", "C"].forEach(seccion => {
                 const option = document.createElement("option");
                 option.value = seccion;
                 option.textContent = `Sección ${seccion}`;
@@ -79,7 +78,6 @@ export function cargarNiveles(callbackSeleccion) {
         const nivel = nivelSelect.value;
         const grado = gradoSelect.value;
         const seccion = seccionSelect.value;
-
         if (nivel && grado && seccion) {
             callbackSeleccion(nivel, grado, seccion);
         }
