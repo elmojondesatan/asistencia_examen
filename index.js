@@ -1,7 +1,13 @@
-import { cargarLogin } from "./components/login/login.js";
-import { createHeader } from "./components/header/header.js";
-import { cargarNiveles } from "./components/levels/level.js";
-import { cargarAsistencia } from "./components/estudiante/estudiante.js";
+import { cargarLogin } from "./componentes/login/login.js";
+import { createHeader } from "./componentes/header/header.js";
+import { cargarNiveles } from "./componentes/levels/level.js";
+import { cargarAsistencia } from "./componentes/estudiante/estudiante.js";
+
+let seleccion = {
+    nivel: null,
+    grado: null,
+    seccion: null
+};
 
 export function cargarDOM() {
     const root = document.getElementById("root");
@@ -11,19 +17,30 @@ export function cargarDOM() {
     }
 
     root.innerHTML = "";
-    
-    // Crear estructura principal
+
     const header = createHeader();
-    const niveles = cargarNiveles();
-    const asistencia = cargarAsistencia();
+    const niveles = cargarNiveles((nivel, grado, seccion) => {
+        seleccion = { nivel, grado, seccion };
+        cargarAsistenciaConDatos(seleccion);
+    });
     
-    // Agregar elementos al DOM
     root.appendChild(header);
     root.appendChild(niveles);
-    root.appendChild(asistencia);
+
+    if (seleccion.nivel && seleccion.grado && seleccion.seccion) {
+        cargarAsistenciaConDatos(seleccion);
+    }
 }
 
-// Iniciar con el login al cargar la página
+function cargarAsistenciaConDatos({ nivel, grado, seccion }) {
+    // Remueve la asistencia antigua si existe
+    const oldAsistencia = document.querySelector(".asistencia-container");
+    if (oldAsistencia) oldAsistencia.remove();
+
+    const asistencia = cargarAsistencia(nivel, grado, seccion);
+    document.getElementById("root").appendChild(asistencia);
+}
+
 document.addEventListener("DOMContentLoaded", () => {
     const token = localStorage.getItem("token");
     if (token) {

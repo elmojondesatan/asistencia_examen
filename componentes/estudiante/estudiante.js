@@ -1,14 +1,13 @@
-export function cargarAsistencia() {
+export function cargarAsistencia(nivel, grado, seccion) {
     const container = document.createElement("div");
     container.className = "asistencia-container";
 
     const title = document.createElement("h2");
-    title.textContent = "Registro de Asistencia";
+    title.textContent = `Registro de Asistencia - ${nivel} / ${grado} / Sección ${seccion}`;
 
     const table = document.createElement("table");
     table.className = "asistencia-table";
 
-    // Crear encabezados de tabla
     const thead = document.createElement("thead");
     const headerRow = document.createElement("tr");
     
@@ -22,8 +21,9 @@ export function cargarAsistencia() {
     thead.appendChild(headerRow);
     table.appendChild(thead);
 
-    // Crear cuerpo de tabla (datos de ejemplo)
     const tbody = document.createElement("tbody");
+
+    // Aquí deberías cargar estudiantes del nivel/grado/sección, por ahora son estáticos
     const estudiantes = [
         { id: 1, nombre: "Juan Pérez" },
         { id: 2, nombre: "María García" },
@@ -33,14 +33,12 @@ export function cargarAsistencia() {
     estudiantes.forEach(estudiante => {
         const row = document.createElement("tr");
         
-        // Número y nombre
         const cellId = document.createElement("td");
         cellId.textContent = estudiante.id;
         
         const cellNombre = document.createElement("td");
         cellNombre.textContent = estudiante.nombre;
 
-        // Opciones de asistencia
         const cellAsistencia = document.createElement("td");
         const radioAsistencia = document.createElement("input");
         radioAsistencia.type = "radio";
@@ -62,25 +60,22 @@ export function cargarAsistencia() {
         radioFalta.value = "falta";
         cellFalta.appendChild(radioFalta);
 
-        // Justificación
         const cellJustificacion = document.createElement("td");
         const inputJustificacion = document.createElement("input");
         inputJustificacion.type = "text";
         inputJustificacion.placeholder = "Motivo (si aplica)";
         cellJustificacion.appendChild(inputJustificacion);
 
-        // Agregar celdas a la fila
         row.append(cellId, cellNombre, cellAsistencia, cellRetardo, cellFalta, cellJustificacion);
         tbody.appendChild(row);
     });
 
     table.appendChild(tbody);
 
-    // Botón para guardar
     const saveBtn = document.createElement("button");
     saveBtn.className = "btn-primary";
     saveBtn.textContent = "Guardar Asistencia";
-    saveBtn.addEventListener("click", guardarAsistencia);
+    saveBtn.addEventListener("click", () => guardarAsistencia(nivel, grado, seccion));
 
     container.appendChild(title);
     container.appendChild(table);
@@ -89,7 +84,6 @@ export function cargarAsistencia() {
     return container;
 }
 
-function guardarAsistencia() {
-    // Implementación para guardar la asistencia
-    alert("Asistencia guardada correctamente");
+function guardarAsistencia(nivel, grado, seccion) {
+    alert(`Asistencia guardada para ${nivel} - ${grado} - Sección ${seccion}`);
 }

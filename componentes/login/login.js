@@ -1,6 +1,5 @@
 import { cargarDOM } from "../index.js";
 
-// ---- LOGIN ----
 export function cargarLogin() {
     const root = document.getElementById("root");
     root.innerHTML = "";
