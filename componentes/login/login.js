@@ -1,4 +1,3 @@
-import { cargarDOM } from "../index.js";
 
 export function cargarLogin() {
     const root = document.getElementById("root");

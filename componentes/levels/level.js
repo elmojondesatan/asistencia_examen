@@ -6,7 +6,7 @@ export function cargarNiveles(callbackSeleccion) {
         "Preprimaria": ["Párvulos 1", "Párvulos 2", "Párvulos 3"],
         "Primaria": ["Primero", "Segundo", "Tercero", "Cuarto", "Quinto", "Sexto"],
         "Básicos": ["Primero Básico", "Segundo Básico", "Tercero Básico"],
-        "Bachillerato": ["Cuarto Bachillerato", "Quinto Bachillerato"]
+        "Bachillerato Computación": ["IV Computación ", "V Computación"]
     };
 
     const nivelSelect = document.createElement("select");
