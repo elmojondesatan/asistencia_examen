@@ -64,7 +64,10 @@ export function cargarLeves() {
     }
 
     function seleccionarSeccion(grado, seccion) {
-        alert(`Seleccionaste: ${grado} - ${seccion}`);
+        // Guardar la selección en localStorage para usarla después
+        localStorage.setItem('gradoSeleccionado', grado);
+        localStorage.setItem('seccionSeleccionada', seccion);
+        
         mostrarFormularioAlumnos();
     }
 
@@ -75,7 +78,6 @@ export function cargarLeves() {
             return;
         }
     
-        cargarAsistencia(); // Esta función ya agrega el formulario en el DOM, no es necesario hacer appendChild()
+        cargarAsistencia();
     }
-
 }

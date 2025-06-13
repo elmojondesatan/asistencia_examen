@@ -1,47 +1,41 @@
-/* Contenedor principal del login */
 .login-container {
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
     background: linear-gradient(135deg, #667eea, #764ba2);
-    padding: 20px; /* Espacio para pantallas pequeñas */
+    padding: 20px; 
 }
 
-/* Caja del formulario */
 .form-box {
     background: white;
-    padding: 40px; /* Reducido para mejor ajuste en móviles */
+    padding: 40px; 
     border-radius: 12px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
     text-align: center;
     width: 100%;
-    max-width: 350px; /* Mejor para pantallas grandes */
+    max-width: 350px; 
 }
 
-/* Estilos generales para inputs */
 input {
     width: 100%;
     padding: 12px;
-    margin: 8px 0; /* Espaciado uniforme entre campos */
+    margin: 8px 0; 
     border: 2px solid #ccc;
     border-radius: 8px;
     font-size: 16px;
     transition: border-color 0.3s;
 }
 
-/* Ajuste de espaciado entre campos en el registro */
 #registerBox input {
-    margin-bottom: 12px; /* Espacio extra entre campos */
+    margin-bottom: 12px;
 }
 
-/* Cambia el borde cuando se enfoca */
 input:focus {
     border-color: #667eea;
     outline: none;
 }
 
-/* Botones de acción */
 button {
     width: 100%;
     padding: 12px;
@@ -56,32 +50,27 @@ button {
     margin-top: 10px;
 }
 
-/* Efecto hover en los botones */
 button:hover {
     background: #564fb8;
     transform: scale(1.05);
 }
 
-/* Estilos para mensajes de error o éxito */
 p {
     margin-top: 10px;
     font-size: 14px;
     font-weight: bold;
 }
 
-/* Mensajes de error */
 #loginError {
     color: red;
     display: none;
 }
 
-/* Mensajes de éxito */
 #registerSuccess {
     color: green;
     display: none;
 }
 
-/* Enlaces */
 a {
     color: #667eea;
     text-decoration: none;
@@ -93,7 +82,6 @@ a:hover {
     color: #564fb8;
 }
 
-/* Responsividad */
 @media (max-width: 400px) {
     .form-box {
         padding: 30px;
