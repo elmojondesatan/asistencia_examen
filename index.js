@@ -1,51 +1,70 @@
 import { cargarLogin } from "./componentes/login/login.js";
 import { createHeader } from "./componentes/header/header.js";
 import { cargarNiveles } from "./componentes/levels/level.js";
-import { cargarAsistencia } from "./componentes/estudiante/estudiante.js";
+import { cargarEstudiantes } from "./componentes/estudiante/estudiante.js";
 
-let seleccion = {
-    nivel: null,
-    grado: null,
-    seccion: null
-};
+/** Punto de entrada principal de la aplicación */
+document.addEventListener("DOMContentLoaded", startApp);
 
-export function cargarDOM() {
-    const root = document.getElementById("root");
-    if (!root) {
-        console.error("No se encontró el elemento root");
-        return;
-    }
+function startApp() {
+  const token = localStorage.getItem("token");
+  if (token) {
+    cargarMainApp();
+  } else {
+    cargarLogin();
+  }
+}
+
+export function cargarMainApp() {
+  if (!document.querySelector(".app-header")) {
+    const header = createHeader();
+    document.body.prepend(header);
+  }
+
+  mostrarSelectorNiveles();
+}
+
+function mostrarSelectorNiveles() {
+  const root = document.getElementById("root");
+  root.innerHTML = "";
+
+  const selector = cargarNiveles((nivel, grado, seccion) => {
+    // Guardar selección en localStorage
+    localStorage.setItem("nivelSeleccionado", nivel);
+    localStorage.setItem("gradoSeleccionado", grado);
+    localStorage.setItem("seccionSeleccionado", seccion);
 
     root.innerHTML = "";
+    cargarEstudiantes(); // Mostrar lista de estudiantes directamente
+  });
 
-    const header = createHeader();
-    const niveles = cargarNiveles((nivel, grado, seccion) => {
-        seleccion = { nivel, grado, seccion };
-        cargarAsistenciaConDatos(seleccion);
-    });
-    
-    root.appendChild(header);
-    root.appendChild(niveles);
-
-    if (seleccion.nivel && seleccion.grado && seleccion.seccion) {
-        cargarAsistenciaConDatos(seleccion);
-    }
+  root.appendChild(selector);
 }
 
-function cargarAsistenciaConDatos({ nivel, grado, seccion }) {
-    // Remueve la asistencia antigua si existe
-    const oldAsistencia = document.querySelector(".asistencia-container");
-    if (oldAsistencia) oldAsistencia.remove();
+// Navegación del header
+document.addEventListener("click", (e) => {
+  if (!e.target.matches(".nav-btn")) return;
 
-    const asistencia = cargarAsistencia(nivel, grado, seccion);
-    document.getElementById("root").appendChild(asistencia);
-}
+  // Marcar botón activo
+  document.querySelectorAll(".nav-btn").forEach(btn => btn.classList.remove("active"));
+  e.target.classList.add("active");
 
-document.addEventListener("DOMContentLoaded", () => {
-    const token = localStorage.getItem("token");
-    if (token) {
-        cargarDOM();
+  const root = document.getElementById("root");
+
+  if (e.target.id === "home-btn") {
+    mostrarSelectorNiveles();
+  } else if (e.target.id === "asistencia-btn") {
+    const grado = localStorage.getItem("gradoSeleccionado");
+    const seccion = localStorage.getItem("seccionSeleccionado");
+    const nivel = localStorage.getItem("nivelSeleccionado");
+
+    if (grado && seccion && nivel) {
+      root.innerHTML = "";
+      cargarEstudiantes(); // Muestra la lista de asistencia
     } else {
-        cargarLogin();
+      mostrarSelectorNiveles();
     }
+  } else if (e.target.id === "reportes-btn") {
+    root.innerHTML = "<h2 style='text-align:center;margin-top:40px'>Módulo de reportes próximamente 🚧</h2>";
+  }
 });

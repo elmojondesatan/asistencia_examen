@@ -1,41 +1,35 @@
 export function createHeader() {
-    const header = document.createElement("header");
-    header.className = "app-header";
+  const header = document.createElement("header");
+  header.className = "app-header";
 
-    const logo = document.createElement("div");
-    logo.className = "logo";
-    logo.textContent = "Sistema de Asistencia";
+  const logo = document.createElement("div");
+  logo.className = "logo";
+  logo.textContent = "Sistema de Asistencia";
 
-    const nav = document.createElement("nav");
+  const nav = document.createElement("nav");
 
-    const menuItems = [
-        { text: "Inicio", id: "home-btn" },
-        { text: "Asistencia", id: "asistencia-btn" },
-        { text: "Reportes", id: "reportes-btn" }
-    ];
+  const menuItems = [
+    { text: "Inicio", id: "home-btn" },
+    { text: "Asistencia", id: "asistencia-btn" },
+    { text: "Reportes", id: "reportes-btn" },
+  ];
 
-    menuItems.forEach(item => {
-        const button = document.createElement("button");
-        button.className = "nav-btn";
-        button.id = item.id;
-        button.textContent = item.text;
-        nav.appendChild(button);
-    });
+  menuItems.forEach((item) => {
+    const btn = document.createElement("button");
+    btn.textContent = item.text;
+    btn.className = "nav-btn";
+    btn.id = item.id;
+    nav.appendChild(btn);
+  });
 
-    const logoutBtn = document.createElement("button");
-    logoutBtn.id = "logout-btn";
-    logoutBtn.className = "btn-secondary";
-    logoutBtn.textContent = "Cerrar Sesión";
-    logoutBtn.addEventListener("click", logout);
-
-    header.appendChild(logo);
-    header.appendChild(nav);
-    header.appendChild(logoutBtn);
-
-    return header;
-}
-
-function logout() {
+  const logout = document.createElement("button");
+  logout.id = "logout-btn";
+  logout.textContent = "Cerrar sesión";
+  logout.addEventListener("click", () => {
     localStorage.removeItem("token");
-    window.location.reload();
+    location.reload();
+  });
+
+  header.append(logo, nav, logout);
+  return header;
 }

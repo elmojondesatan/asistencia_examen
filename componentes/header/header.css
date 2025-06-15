@@ -1,21 +1,62 @@
-/* Añadir al CSS existente */
-.logout-btn {
-    background: linear-gradient(135deg, #e74c3c, #c0392b) !important;
-    padding: 8px 16px !important;
-    width: auto !important;
-    margin-left: 20px !important;
-    transition: all 0.3s ease;
+@import "../../index.css";
+
+.app-header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 20px;
+  background: #121212;
+  border-bottom: 1px solid var(--primary);
+  box-shadow: 0 0 6px rgba(0, 212, 255, 0.12);
+  position: sticky;
+  top: 0;
+  z-index: 100;
 }
 
-.logout-btn:hover {
-    background: linear-gradient(135deg, #c0392b, #a93226) !important;
-    transform: scale(1.05) !important;
+.logo {
+  font-size: 20px;
+  font-weight: bold;
+  background: linear-gradient(90deg, var(--primary), var(--primary-alt));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
-/* Ajustar el header-container para el nuevo botón */
-.header-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 20px;
+.nav-btn {
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 16px;
+  margin: 0 10px;
+  cursor: pointer;
+  position: relative;
+}
+
+.nav-btn::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -4px;
+  width: 0;
+  height: 2px;
+  background: var(--primary);
+  transition: width 0.25s;
+}
+.nav-btn:hover::after,
+.nav-btn.active::after {
+  width: 100%;
+}
+
+#logout-btn {
+  background: linear-gradient(135deg, var(--danger), #c0392b);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius);
+  padding: 8px 16px;
+  cursor: pointer;
+  transition: transform .25s;
+}
+
+#logout-btn:hover {
+  transform: scale(1.05);
 }
